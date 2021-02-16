@@ -41,22 +41,22 @@ function browserSyncReload(done) {
   done();
 }
 
-// Clean vendor
+// Clean vvendor
 function clean() {
-  return del(["./vendor/"]);
+  return del(["./vvendor/"]);
 }
 
-// Bring third party dependencies from node_modules into vendor directory
+// Bring third party dependencies from node_modules into vvendor directory
 function modules() {
   // Bootstrap
   var bootstrap = gulp.src('./node_modules/bootstrap/dist/**/*')
-    .pipe(gulp.dest('./vendor/bootstrap'));
+    .pipe(gulp.dest('./vvendor/bootstrap'));
   // jQuery
   var jquery = gulp.src([
       './node_modules/jquery/dist/*',
       '!./node_modules/jquery/dist/core.js'
     ])
-    .pipe(gulp.dest('./vendor/jquery'));
+    .pipe(gulp.dest('./vvendor/jquery'));
   return merge(bootstrap, jquery);
 }
 
@@ -92,14 +92,14 @@ function watchFiles() {
 }
 
 // Define complex tasks
-const vendor = gulp.series(clean, modules);
-const build = gulp.series(vendor, css);
+const vvendor = gulp.series(clean, modules);
+const build = gulp.series(vvendor, css);
 const watch = gulp.series(build, gulp.parallel(watchFiles, browserSync));
 
 // Export tasks
 exports.css = css;
 exports.clean = clean;
-exports.vendor = vendor;
+exports.vvendor = vvendor;
 exports.build = build;
 exports.watch = watch;
 exports.default = build;
